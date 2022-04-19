@@ -15,7 +15,7 @@ public class MemberRepositoryV0 {
     public Member save(Member member) throws SQLException {
         String sql = "insert into member(member_id, money) values(?, ?)";
         Connection con = null;
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt = null; //PreparedStatement는 변수를 바인딩 해주기 때문에 SQL 인젝션 방지해줌
         try {
             con = getConnection();
             pstmt = con.prepareStatement(sql);
