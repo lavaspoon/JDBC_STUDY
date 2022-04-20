@@ -14,5 +14,4 @@ class MemberRepositoryV0Test {
         Member member = new Member("memberV0", 10000);
         repository.save(member);
     }
-
 }

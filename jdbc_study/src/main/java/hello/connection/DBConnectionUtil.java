@@ -12,6 +12,7 @@ import static hello.connection.ConnectionConst.*;
 public class DBConnectionUtil {
     public static Connection getConnection() {
         try {
+            //DriverManager를 통해서 Connection 획득
             Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             log.info("get connection={}, class={}", connection, connection.getClass());
             return connection;
