@@ -13,10 +13,14 @@ class MemberRepositoryV0Test {
     @Test
     void crud() throws SQLException {
         //Save
-        Member member = new Member("memberV2", 10000);
+        Member member = new Member("memberV6", 10000);
         repository.save(member);
         //FindById
         Member findMember = repository.findById(member.getMemberId());
         Assertions.assertThat(findMember).isEqualTo(member);
+        //Update money : 10000 -> 20000
+        repository.update(member.getMemberId(), 20000);
+        Member updatedMember = repository.findById(member.getMemberId());
+        Assertions.assertThat(updatedMember.getMoney()).isEqualTo(20000);
     }
 }
