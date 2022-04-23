@@ -1,5 +1,6 @@
 package hello.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import hello.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +20,14 @@ class MemberRepositoryV1Test {
     //각 테스트가 실행되기전에 호출되는것
     @BeforeEach
     void beforeEach(){
-        //기본 DriverManager - 항상 새로운 커넥션을 획득
-        DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+        //1. 기본 DriverManager - 항상 새로운 커넥션을 획득
+        //DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
+        //2. 커넥션 풀링 - Hikari
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl(URL);
+        dataSource.setUsername(USERNAME);
+        dataSource.setPassword(PASSWORD);
+
         repository = new MemberRepositoryV1(dataSource);
     }
     @Test
@@ -39,5 +46,11 @@ class MemberRepositoryV1Test {
         repository.delete(member.getMemberId());
         Assertions.assertThatThrownBy(() -> repository.findById(member.getMemberId()))
                 .isInstanceOf(NoSuchElementException.class);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
