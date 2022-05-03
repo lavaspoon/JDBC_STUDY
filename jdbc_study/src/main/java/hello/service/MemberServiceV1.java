@@ -18,7 +18,7 @@ public class MemberServiceV1 {
         memberRepositoryV1.update(fromId, fromMember.getMoney() - money);
         validation(toMember);
         memberRepositoryV1.update(toId, toMember.getMoney() + money);
-
+        //커밋, 롤백 판단
 
     }
 
