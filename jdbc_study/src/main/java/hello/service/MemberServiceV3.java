@@ -11,6 +11,7 @@ import java.sql.SQLException;
 
 /**
  * 트랜잭션 - 트랜잭션 매니저
+ * 테스트코드 작성 필요
  */
 @Slf4j
 @RequiredArgsConstructor
