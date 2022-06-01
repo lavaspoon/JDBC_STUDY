@@ -126,6 +126,11 @@ public class MemberRepositoryV3 {
         DataSourceUtils.releaseConnection(con, dataSource);
     }
 
+    /**
+     * 커넥션 가져오는 부분
+     * @return
+     * @throws SQLException
+     */
     private Connection getConnection() throws SQLException {
         //주의! 트랜젝션 동기화를 사용하려면 DataSourceUtils를 사용해야 한다.
         Connection con = DataSourceUtils.getConnection(dataSource);
