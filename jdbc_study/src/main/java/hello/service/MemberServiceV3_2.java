@@ -18,8 +18,8 @@ import java.sql.SQLException;
 @Slf4j
 @RequiredArgsConstructor
 public class  MemberServiceV3_2 {
-    //PlatformTransactionManager 주입받는다.
-    //private final PlatformTransactionManager transactionManager;
+
+//    private final PlatformTransactionManager transactionManager;
     private final TransactionTemplate txTemplate;
     private final MemberRepositoryV3 memberRepositoryV3;
 
@@ -31,13 +31,18 @@ public class  MemberServiceV3_2 {
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
 
         txTemplate.executeWithoutResult((status) -> {
-            //비즈니스 로직
-            try{
+            try {
                 bizLogic(fromId, toId, money);
             } catch (SQLException e) {
-                throw new IllegalStateException(e);
+                throw new IllegalStateException();
             }
         });
+
+        try{
+            bizLogic(fromId, toId, money); //비지니스 로직 수행\
+        } catch (Exception e) {
+            throw new IllegalStateException();
+        }
     }
 
     private void bizLogic(String fromId, String toId, int money) throws SQLException {
