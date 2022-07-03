@@ -2,10 +2,8 @@ package hello.service;
 
 import hello.domain.Member;
 import hello.repository.MemberRepositoryV3;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 
@@ -13,33 +11,17 @@ import java.sql.SQLException;
  * 트랜잭션 - @Transactional AOP
  */
 @Slf4j
-@RequiredArgsConstructor
 public class MemberServiceV3_3 {
 
-//    private final PlatformTransactionManager transactionManager;
-    private final TransactionTemplate txTemplate;
     private final MemberRepositoryV3 memberRepositoryV3;
 
-    public MemberServiceV3_3(PlatformTransactionManager transactionManager, MemberRepositoryV3 memberRepositoryV3) {
-        this.txTemplate = new TransactionTemplate(transactionManager);
+    public MemberServiceV3_3(MemberRepositoryV3 memberRepositoryV3) {
         this.memberRepositoryV3 = memberRepositoryV3;
     }
 
+    @Transactional
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
-
-        txTemplate.executeWithoutResult((status) -> {
-            try {
-                bizLogic(fromId, toId, money);
-            } catch (SQLException e) {
-                throw new IllegalStateException();
-            }
-        });
-
-        try{
-            bizLogic(fromId, toId, money); //비지니스 로직 수행\
-        } catch (Exception e) {
-            throw new IllegalStateException();
-        }
+        bizLogic(fromId, toId, money);
     }
 
     private void bizLogic(String fromId, String toId, int money) throws SQLException {
